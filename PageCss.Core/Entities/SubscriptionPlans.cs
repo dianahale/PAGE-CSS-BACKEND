@@ -14,6 +14,10 @@ namespace PageCss.Core.Entities
         [Required]
         public string Description { get; set; }
 
+        [Required]
+        public decimal Price { get; set; }
+
+
         public List<User> Users { get; set; }
 
 

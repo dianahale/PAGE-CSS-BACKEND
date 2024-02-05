@@ -1,9 +1,10 @@
-﻿using PageCss.ApplicationService.PlanesSubscription;
-using PageCss.Core.Entities;
-using Microsoft.EntityFrameworkCore;
-using PageCss.DataAccess.Repositories;
-using PageCss.Core.ViewModelsOut;
+﻿using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using PageCss.ApplicationService.PlanesSubscription;
+using PageCss.DataAccess.Repositories;
+using PageCss.Core.Entities;
+using PageCss.Core.ViewModelsOut;
+using PageCss.Core.ViewModelsIn;
 
 namespace PageCss.ApplicationService.PlanesSubscriptionAppServices
 {
@@ -22,10 +23,10 @@ namespace PageCss.ApplicationService.PlanesSubscriptionAppServices
         }
 
 
-        public async Task<int> AddSubscriptionPlanAsync(SubscriptionPlan subscriptionPlan)
+        public async Task<int> AddSubscriptionPlanAsync(SubscriptionPlanViewModel subscriptionPlanVM)
         {
+            SubscriptionPlan subscriptionPlan = _mapper.Map<SubscriptionPlan>(subscriptionPlanVM);
             await _repository.AddAsync(subscriptionPlan);
-
             return subscriptionPlan.Id;
         }
 
@@ -34,8 +35,10 @@ namespace PageCss.ApplicationService.PlanesSubscriptionAppServices
             await _repository.DeleteAsync(subscriptionPlanId);
         }
 
-        public async Task EditSubscriptionPlanAsync(SubscriptionPlan subscriptionPlan)
+        public async Task EditSubscriptionPlanAsync(int id, SubscriptionPlanViewModel subscriptionPlanVM)
         {
+            SubscriptionPlan subscriptionPlan = _mapper.Map<SubscriptionPlan>(subscriptionPlanVM);
+            subscriptionPlan.Id = id;
             await _repository.UpdateAsync(subscriptionPlan);
         }
 
@@ -44,10 +47,10 @@ namespace PageCss.ApplicationService.PlanesSubscriptionAppServices
             return await _repository.GetAsync(subscriptionPlanId);
         }
 
-        public async Task<List<SubscriptionPlanViewModelOut>> GetSubscriptionPlansAsync()
+        public async Task<List<SubscriptionPlan>> GetSubscriptionPlansAsync()
         {
-            List<SubscriptionPlan> subsPlans = await _repository.GetAll().ToListAsync();
-            return _mapper.Map<List<SubscriptionPlanViewModelOut>>(subsPlans);
+            return await _repository.GetAll().ToListAsync();
         }
+
     }
 }

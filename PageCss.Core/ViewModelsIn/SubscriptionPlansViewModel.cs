@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PageCss.Core.ViewModelsOut
+namespace PageCss.Core.ViewModelsIn
 {
-    public class SubscriptionPlanViewModelOut
+    public class SubscriptionPlanViewModel
     {
-        [Key]
-        public int Id { get; set; }
 
         [Required]
         [StringLength(20)]

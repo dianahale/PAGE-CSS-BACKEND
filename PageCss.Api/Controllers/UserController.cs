@@ -17,7 +17,7 @@ namespace PageCss.Api.Controllers
             _userService = userService;
         }
 
-        // POST api/<UserController>
+        // POST api/<UserController> ADD NEW USER
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] UsersViewModelIn value)
         {

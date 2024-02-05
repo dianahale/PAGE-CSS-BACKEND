@@ -12,7 +12,6 @@ namespace PageCss.ApplicationServices.Users
     public class UserService: IUserService
     {
         private readonly UserManager<User> _userManager;
-        private readonly PageCssContext _context;
         private readonly ISubscriptionPlanesApplicationService _planSubscription;
         private readonly IMapper _mapper;
  
@@ -23,7 +22,6 @@ namespace PageCss.ApplicationServices.Users
             ISubscriptionPlanesApplicationService planSubscription
         ){
             _userManager = userManager;
-            _context = context;
             _mapper = mapper;
             _planSubscription = planSubscription;
         }
@@ -43,8 +41,8 @@ namespace PageCss.ApplicationServices.Users
                 Email = usersViewModelIn.Email,
                 EmailConfirmed = true,
                 UserName = usersViewModelIn.Email,
-                PhoneNumber = usersViewModelIn.PhoneNumber
-                ,SubscriptionPlans = subscriptionPlan
+                PhoneNumber = usersViewModelIn.PhoneNumber,
+                SubscriptionPlans = subscriptionPlan
             };
             
             var result = await _userManager.CreateAsync(userNew, usersViewModelIn.Password);
