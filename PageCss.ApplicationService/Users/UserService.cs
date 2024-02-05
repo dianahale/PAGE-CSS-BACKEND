@@ -31,34 +31,23 @@ namespace PageCss.ApplicationServices.Users
         public async Task<UsersViewModelOut> GetUserAsync(string id)
         {
             IdentityUser user = await _userManager.Users.Where(x => x.Id == id).FirstOrDefaultAsync();
-
             UsersViewModelOut userVM = _mapper.Map<UsersViewModelOut>(user);
-
             return userVM;
         }
 
         public async Task<IdentityResult> AddUserAsync(UsersViewModelIn usersViewModelIn)
         {
+            SubscriptionPlan subscriptionPlan = await _planSubscription.GetSubscriptionPlanAsync(usersViewModelIn.SubscriptionPlanId);
 
             User userNew = new User{
                 Email = usersViewModelIn.Email,
                 EmailConfirmed = true,
                 UserName = usersViewModelIn.Email,
                 PhoneNumber = usersViewModelIn.PhoneNumber
+                ,SubscriptionPlans = subscriptionPlan
             };
-
-            userNew.SubscriptionPlans.Id = usersViewModelIn.SubscriptionPlanId;
-            Console.WriteLine("dfcgvhbh");
             
-            var result = await _userManager.CreateAsync(
-                userNew
-                //new User{
-                //    Email = usersViewModelIn.Email,
-                //    EmailConfirmed = true,
-                //    UserName = usersViewModelIn.Email,
-                //    PhoneNumber = usersViewModelIn.PhoneNumber}
-            , usersViewModelIn.Password);
-
+            var result = await _userManager.CreateAsync(userNew, usersViewModelIn.Password);
             return result;
 
         }
