@@ -23,10 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PageCss.ApplicationService\PageCss.ApplicationService.csproj" />
     <ProjectReference Include="..\PageCss.Core\PageCss.Core.csproj" />
     <ProjectReference Include="..\PageCss.DataAccess\PageCss.DataAccess.csproj" />

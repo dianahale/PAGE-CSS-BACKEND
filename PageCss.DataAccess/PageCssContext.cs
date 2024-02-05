@@ -7,6 +7,7 @@ namespace PageCss.DataAccess
     public class PageCssContext: IdentityDbContext
     {
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<SubscriptionPlan> SubscriptionPlans { get; set; }
 
         public PageCssContext(DbContextOptions<PageCssContext> options) : base(options)
         {

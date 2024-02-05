@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PageCss.DataAccess;
 
@@ -10,9 +11,10 @@ using PageCss.DataAccess;
 namespace PageCss.DataAccess.Migrations
 {
     [DbContext(typeof(PageCssContext))]
-    partial class PageCssContextModelSnapshot : ModelSnapshot
+    [Migration("20240204205713_Add-table-SubscriptionPlan")]
+    partial class AddtableSubscriptionPlan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

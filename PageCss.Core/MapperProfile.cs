@@ -12,6 +12,7 @@ namespace PageCss.Core
             CreateMap<User, UsersViewModelIn>().ReverseMap();
             CreateMap<User, UsersViewModelOut>().ReverseMap();
             CreateMap<User, LoginViewModel>().ReverseMap();
+            CreateMap<SubscriptionPlan, SubscriptionPlanViewModelOut>().ReverseMap();
         }
     }
 }

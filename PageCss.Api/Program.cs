@@ -2,9 +2,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using PageCss.ApplicationService.PlanesSubscription;
+using PageCss.ApplicationService.PlanesSubscriptionAppServices;
+using PageCss.ApplicationServices.Users;
 using PageCss.Core;
 using PageCss.Core.Entities;
 using PageCss.DataAccess;
+using PageCss.DataAccess.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,13 +23,14 @@ string connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<PageCssContext>(options =>
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
-
-
 builder.Services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<PageCssContext>();
 
 
-builder.Services.AddAutoMapper(typeof(MapperProfile));
+
+
+
+
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -57,6 +62,16 @@ builder.Services.AddSwaggerGen(option =>
         }
     });
 });
+
+
+
+builder.Services.AddAutoMapper(typeof(MapperProfile));
+
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<ISubscriptionPlanesApplicationService, SubscriptionPlanesApplicationService>();
+
+builder.Services.AddTransient<IRepository<int, SubscriptionPlan>, Repository<int, SubscriptionPlan>>();
+
 
 
 var app = builder.Build();

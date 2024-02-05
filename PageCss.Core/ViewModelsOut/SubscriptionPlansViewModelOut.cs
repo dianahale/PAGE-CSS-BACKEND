@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PageCss.Core.Entities
+namespace PageCss.Core.ViewModelsOut
 {
-    public class SubscriptionPlan
+    public class SubscriptionPlanViewModelOut
     {
         [Key]
         public int Id { get; set; }
@@ -14,12 +14,5 @@ namespace PageCss.Core.Entities
         [Required]
         public string Description { get; set; }
 
-        public List<User> Users { get; set; }
-
-
-        public SubscriptionPlan()
-        {
-            Users = new List<User>();
-        }
     }
 }
