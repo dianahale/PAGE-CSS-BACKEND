@@ -38,6 +38,7 @@ namespace PageCss.ApplicationServices.Users
             SubscriptionPlan subscriptionPlan = await _planSubscription.GetSubscriptionPlanAsync(usersViewModelIn.SubscriptionPlanId);
 
             User userNew = new User{
+                Name = usersViewModelIn.Name,
                 Email = usersViewModelIn.Email,
                 EmailConfirmed = true,
                 UserName = usersViewModelIn.Email,

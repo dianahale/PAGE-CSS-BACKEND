@@ -5,7 +5,11 @@ namespace PageCss.Core.ViewModelsOut
     public class UsersViewModelOut
     {
         public string Id { get; set; }
-        
+
+        [Required]
+        [StringLength(100)]
+        public string Name { get; set; }
+
         [EmailAddress]
         [Required]
         [StringLength(256)]

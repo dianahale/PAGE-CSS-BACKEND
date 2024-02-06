@@ -4,7 +4,10 @@ namespace PageCss.Core.ViewModelsIn
 {
     public class UsersViewModelIn
     {
-        
+        [Required]
+        [StringLength(100)]
+        public string Name { get; set; }
+
         [Required]
         [StringLength(256)]
         [EmailAddress]
