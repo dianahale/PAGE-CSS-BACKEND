@@ -30,11 +30,6 @@ builder.Services.AddIdentity<User, IdentityRole>(options => options.SignIn.Requi
 
 
 
-
-
-
-
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
@@ -103,6 +98,14 @@ builder.Services.AddTransient<ISubscriptionPlanesApplicationService, Subscriptio
 builder.Services.AddTransient<IRepository<int, SubscriptionPlan>, Repository<int, SubscriptionPlan>>();
 
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder => builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
 
 var app = builder.Build();
 
@@ -112,6 +115,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("AllowAllOrigins");
 
 app.UseHttpsRedirection();
 
