@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PageCss.ApplicationService.PlanesSubscription;
 using PageCss.ApplicationService.PlanesSubscriptionAppServices;
@@ -9,6 +10,7 @@ using PageCss.Core;
 using PageCss.Core.Entities;
 using PageCss.DataAccess;
 using PageCss.DataAccess.Repositories;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,6 +66,34 @@ builder.Services.AddSwaggerGen(option =>
 });
 
 
+builder.Services
+    .AddHttpContextAccessor()
+    .AddAuthorization()
+    .AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+
+
+builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
+
 
 builder.Services.AddAutoMapper(typeof(MapperProfile));
 
@@ -85,6 +115,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
