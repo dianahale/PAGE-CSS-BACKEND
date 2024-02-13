@@ -102,12 +102,29 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins",
         builder => builder.AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader());
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 });
 
-
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<PageCssContext>();
+
+    try
+    {
+        if(context.Database.GetPendingMigrations().Count() > 0)
+        {
+            context.Database.Migrate();
+        }
+    }
+    catch(Exception)
+    {
+        throw;
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

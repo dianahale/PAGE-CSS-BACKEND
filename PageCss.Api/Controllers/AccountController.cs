@@ -7,9 +7,11 @@ using Microsoft.IdentityModel.Tokens;
 using PageCss.ApplicationServices.Users;
 using PageCss.Core.Entities;
 using PageCss.Core.ViewModelsIn;
+using Microsoft.AspNetCore.Cors;
 
 namespace PageCss.Api.Controllers
 {
+    [EnableCors("AllowAllOrigins")]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
